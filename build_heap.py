@@ -13,18 +13,12 @@ def build_heap(data):
             if data[leftChild] < data[i]:
                 (data[leftChild], data[i]) = [data[i], data[leftChild]]
 
-                if leftChild == len(data) - 1 or leftChild == len(data) - 2:
-                    return
-
                 return swaps.append([i, leftChild]), changePlaces(data, i)
 
         rightChild = 2*i+2
         if rightChild < len(data):
             if data[rightChild] < data[i]:
                 (data[rightChild], data[i]) = [data[i], data[rightChild]]
-
-                if rightChild == len(data) - 1:
-                    return
 
                 return swaps.append([i, rightChild]), changePlaces(data, i)
 
@@ -42,6 +36,8 @@ def build_heap(data):
                 (data[i], data[parent]) = [data[parent], data[i]]
                 return swaps.append([parent, i]), changePlaces(data, parent)
         
+        if i == len(data)-1:
+            return
             
         changePlaces(data, i+1)
 
