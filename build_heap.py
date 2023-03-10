@@ -7,22 +7,25 @@ def build_heap(data):
     # try to achieve  O(n) and not O(n2)
 
     def changePlaces (data, i):
-        print("yes")
 
         leftChild = 2*i+1
         if leftChild < len(data):
             if data[leftChild] < data[i]:
                 (data[leftChild], data[i]) = [data[i], data[leftChild]]
-                print("parent = ", i)
-                print("2 = ", data)
+
+                if leftChild == len(data) - 1 or leftChild == len(data) - 2:
+                    return
+
                 return swaps.append([i, leftChild]), changePlaces(data, i)
 
         rightChild = 2*i+2
         if rightChild < len(data):
             if data[rightChild] < data[i]:
                 (data[rightChild], data[i]) = [data[i], data[rightChild]]
-                print("parent = ", i)
-                print("1 = ", data)
+
+                if rightChild == len(data) - 1:
+                    return
+
                 return swaps.append([i, rightChild]), changePlaces(data, i)
 
         # leftChild = 2*i+1
@@ -37,22 +40,12 @@ def build_heap(data):
             parent = math.floor((i-1)/2)
             if data[parent] > data[i]:
                 (data[i], data[parent]) = [data[parent], data[i]]
-                print("parent = ", parent)
-                print("3 = ", data)
                 return swaps.append([parent, i]), changePlaces(data, parent)
         
-        if i == len(data)-1:
-            return
-        
+            
         changePlaces(data, i+1)
 
 
-    # k = 0
-    # for i in reversed(range(0, len(data))):
-    #     print("i=", i)
-    #     # swaps[k] = swaps.extend (changePlaces(data, i))
-    #     changePlaces(data, i)
-    #     # k+=1
     changePlaces(data, len(data)-1)
     return swaps
 
@@ -82,8 +75,8 @@ def main():
             print("wrong file name")
             return
         
-        filePath = "./test/" + fileName
-        with open(filePath, mode="r") as fail:
+        # filePath = "./test/" + fileName
+        with open(fileName, mode="r") as fail:
             # input number of elements
             elements_count = int(fail.readline())
             # input values in one variable
