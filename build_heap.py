@@ -86,7 +86,7 @@ def main():
             print("wrong file name")
             return
         
-        filePath = "./test/" + fileName
+        filePath = "./tests/" + fileName
         with open(filePath, mode="r") as fail:
             # input number of elements
             elements_count = int(fail.readline())
