@@ -21,44 +21,41 @@ def build_heap(data):
     def changePlaces (data, i):
         if i == 0:
             return
-
-        # leftChild = 2*i+1
-        # if leftChild < len(data):
-        #     if data[leftChild] < data[i]:
-        #         (data[leftChild], data[i]) = [data[i], data[leftChild]]
-
-        #         return swaps.append([i, leftChild]), changePlaces(data, i)
-
-        # rightChild = 2*i+2
-        # if rightChild < len(data):
-        #     if data[rightChild] < data[i]:
-        #         (data[rightChild], data[i]) = [data[i], data[rightChild]]
-
-        #         return swaps.append([i, rightChild]), changePlaces(data, i)
-
-        print("yes")
+    
         parent = math.floor((i-1)/2)
+        if parent < 0:
+            return changePlaces(data, 1)
+
         if data[parent] > data[i]:
             (data[i], data[parent]) = [data[parent], data[i]]
-            print("parent = ", parent)
-            print("data = ", data)
+            # print("parent1 = ", parent)
+            # print("data = ", data)
             return swaps.append([parent, i]), changePlaces(data, parent)
-    
-            
-        # changePlaces(data, i+1)
 
-    print("tree_height = ", tree_height)
+        leftChild = 2*i+1
+        if leftChild < len(data):
+            if data[leftChild] < data[i]:
+                (data[leftChild], data[i]) = [data[i], data[leftChild]]
+                # print("parent2 = ", parent)
+                # print("data = ", data)
+                return swaps.append([i, leftChild]), changePlaces(data, i)
+                
+        rightChild = 2*i+2
+        if rightChild < len(data):
+            if data[rightChild] < data[i]:
+                (data[rightChild], data[i]) = [data[i], data[rightChild]]
+                # print("parent3 = ", parent)
+                # print("data = ", data)
+                return swaps.append([i, rightChild]), changePlaces(data, i)
+
+    
     last_level_count = len(data) - pow(2, tree_height) - 1
-    print("last = ", last_level_count)
     if last_level_count < 0:
         last_level_count = len(data) - abs(last_level_count) - 1
 
-    print("length = ", length)
-    print("last = ", last_level_count)
     length = len(data)-1
 
     for n in range(length, last_level_count, -1):
-        print("n = ", n)
         changePlaces(data, n)
 
     return swaps
@@ -89,8 +86,8 @@ def main():
             print("wrong file name")
             return
         
-        # filePath = "./test/" + fileName
-        with open(fileName, mode="r") as fail:
+        filePath = "./test/" + fileName
+        with open(filePath, mode="r") as fail:
             # input number of elements
             elements_count = int(fail.readline())
             # input values in one variable
@@ -117,8 +114,8 @@ def main():
 
     # output all swaps
     print(len(swaps))
-    for i, j in swaps:
-        print(i, j)
+    # for i, j in swaps:
+    #     print(i, j)
 
 
 if __name__ == "__main__":
