@@ -1,4 +1,5 @@
 # python3 build_heap.py
+# Ksenija Voronecka RDCP0
 import math
 
 def build_heap(data):
@@ -6,57 +7,28 @@ def build_heap(data):
     # TODO: Creat heap and heap sort
     # try to achieve  O(n) and not O(n2)
 
-    length = len(data)-1
-    tree_height = 1
-    k = 1
-    while True:
-        if length <= 0:
-            break
+    i = math.floor((len(data) - 2) / 2)
 
-        length = length - pow(2, k)
-        tree_height += 1
-        k += 1
+    def change_places(i, length):
+        leftChild = 2 * i + 1
+        rightChild = 2 * i + 2
 
+        smallestNumber = i
 
-    def changePlaces (data, i):
-        if i == 0:
-            return
+        if leftChild < length and data[leftChild] < data[i]:
+            smallestNumber = leftChild
+        
+        if rightChild < length and data[rightChild] < data[smallestNumber]:
+            smallestNumber = rightChild
+        
+        if smallestNumber != i:
+            (data[i], data[smallestNumber]) = [data[smallestNumber], data[i]]
+            swaps.append([i, smallestNumber])
+            change_places(smallestNumber, length)
     
-        parent = math.floor((i-1)/2)
-        if parent < 0:
-            return changePlaces(data, 1)
-
-        if data[parent] > data[i]:
-            (data[i], data[parent]) = [data[parent], data[i]]
-            # print("parent1 = ", parent)
-            # print("data = ", data)
-            return swaps.append([parent, i]), changePlaces(data, parent)
-
-        leftChild = 2*i+1
-        if leftChild < len(data):
-            if data[leftChild] < data[i]:
-                (data[leftChild], data[i]) = [data[i], data[leftChild]]
-                # print("parent2 = ", parent)
-                # print("data = ", data)
-                return swaps.append([i, leftChild]), changePlaces(data, i)
-                
-        rightChild = 2*i+2
-        if rightChild < len(data):
-            if data[rightChild] < data[i]:
-                (data[rightChild], data[i]) = [data[i], data[rightChild]]
-                # print("parent3 = ", parent)
-                # print("data = ", data)
-                return swaps.append([i, rightChild]), changePlaces(data, i)
-
-    
-    last_level_count = len(data) - pow(2, tree_height) - 1
-    if last_level_count < 0:
-        last_level_count = len(data) - abs(last_level_count) - 1
-
-    length = len(data)-1
-
-    for n in range(length, last_level_count, -1):
-        changePlaces(data, n)
+    while i >= 0:
+        change_places(i, len(data))
+        i -= 1
 
     return swaps
 
@@ -114,8 +86,8 @@ def main():
 
     # output all swaps
     print(len(swaps))
-    # for i, j in swaps:
-    #     print(i, j)
+    for i, j in swaps:
+        print(i, j)
 
 
 if __name__ == "__main__":
